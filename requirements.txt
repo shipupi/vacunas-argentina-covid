@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+schedule
+psycopg2-binary
+python-dotenv
