@@ -3,8 +3,12 @@ import time
 import requests
 import zipfile
 import psycopg2
+from datetime import datetime
+from openpyxl import load_workbook
+from lxml import html
 import pandas as pd
 import os
+import re
 from configparser import ConfigParser
 
 def config(filename='../src/config/database.ini', section='postgresql'):
@@ -42,7 +46,8 @@ def test_connect():
             print('Database connection closed.')
 
 
-def load_datos_nomivac_covid19(name):
+def load_datos_nomivac_covid19(dataset):
+    name = dataset["name"]
     conn = None
     try:
         params = config()
@@ -75,7 +80,7 @@ def load_datos_nomivac_covid19(name):
             orden_dosis integer,\
             lote_vacuna text);")
         cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+f2_name +"' DELIMITER ',' NULL AS '' CSV HEADER")
-        print("Creating views for table " +tablename)
+        print("-Creating views for table " +tablename)
         cur.execute("CREATE MATERIALIZED VIEW timeline AS\
                     SELECT jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, fecha_aplicacion, vacuna, orden_dosis, count(*) AS cantidad\
                     FROM " +tablename +"\
@@ -95,7 +100,8 @@ def load_datos_nomivac_covid19(name):
         if conn is not None:
             conn.close()
 
-def load_vacunas_agrupadas(name):
+def load_vacunas_agrupadas(dataset):
+    name = dataset["name"]
     conn = None
     try:
         params = config()
@@ -112,6 +118,47 @@ def load_vacunas_agrupadas(name):
             segunda_dosis_cantidad integer\
             );")
         cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+csvname +"' DELIMITER ',' CSV HEADER")
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+def load_acta_recepcion(dataset):
+    wb = load_workbook(dataset["name"]+".xlsx", data_only=True)
+    sheet = wb[dataset["sheet"]]
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        tablename = dataset["name"]
+        cur.execute("DROP TABLE IF EXISTS " +tablename +";")
+        cur.execute("CREATE TABLE IF NOT EXISTS " +tablename +"(\
+            empresa text,\
+            cantidad integer,\
+            guia_aerea text,\
+            fecha_entrega date,\
+            empresa_traslado text\
+            );")
+        first = True
+        for row in sheet.values:
+            if(first):
+                first = False
+            else:
+                if(str(row[0]) != "TOTAL"):
+                    date = row[3]
+                    # Filter non-standard dates
+                    if(type(row[3]) == str):
+                        date = re.findall("[0-9]+/[0-9]+/[0-9]+", str(row[3]))
+                        numbers = date[0].split("/")
+                        if(int(numbers[2]) < 100):
+                            numbers[2] = 2000 + int(numbers[2])
+                        date = datetime(int(numbers[2]), int(numbers[1]), int(numbers[0]))
+                    cur.execute("INSERT INTO " +tablename +"(empresa,cantidad,guia_aerea,fecha_entrega,empresa_traslado) VALUES(\'"
+                                    +str(row[0]) +"\', " +str(row[1]) +", \'" +str(row[2]) +"\', \'" +str(date) +"\', \'" +str(row[5]) +"\');")
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -175,35 +222,47 @@ def download(dataset):
         r = requests.head(dataset["url"], allow_redirects=True)
         etag = r.headers["ETag"]
         if is_dataset_up_to_date(dataset, etag):
-            print("No need to download again!")
+            print("-Etag up to date. No need to download again!")
             return ""
-        print("Downloading " +dataset["name"])
+        print("-Downloading " +dataset["name"])
         r = requests.get(dataset["url"], allow_redirects=True)
         open(filename, 'wb').write(r.content)
         time.sleep(1)
         with zipfile.ZipFile(filename, 'r') as zip_ref:
             zip_ref.extractall(".")
-        print("Dataset " +dataset["name"] +" downloaded and extracted!")
+        print("-Dataset " +dataset["name"] +" downloaded and extracted!")
         os.remove(filename)
         return etag
     else:
-        book = xlrd.open_workbook(dataset["name"]+".xlsx")
-        sheet = book.sheet_by_name(dataset["sheet"])
-        return '???'
+        filename = dataset["name"]+".xlsx"
+        r = requests.get(dataset["url"], allow_redirects=True)
+        tree = html.fromstring(r.content)
+        download_link = tree.xpath('//a[@class="btn btn-green btn-block"]/@href')[0]
+        r = requests.head(download_link, allow_redirects=True)
+        etag = r.headers["ETag"]
+        if is_dataset_up_to_date(dataset, etag):
+            print("-Etag up to date. No need to download again!")
+            return ""
+        print("-Downloading " +dataset["name"])
+        r = requests.get(download_link, allow_redirects=True)
+        open(filename, 'wb').write(r.content)
+        print("-Dataset " +dataset["name"] +" downloaded!")
+        return etag
 
 def download_datasets():
     sets = [{"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
             {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "Covid19VacunasAgrupadas", "function": load_vacunas_agrupadas},
-            #{"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "XXX", "function": XXX}
+            {"url": "http://datos.salud.gob.ar/dataset/actas-de-recepcion-de-vacunas-covid-19/archivo/d2851fa6-b105-4f15-b352-dd3d792bd526", "name": "actas_de_recepcion_vacunas",
+                "sheet": "Carolina", "function": load_acta_recepcion}
             ]
     for x in sets:
-        print("Retrieving dataset " +x["name"])
+        print("\nRetrieving dataset " +x["name"])
         etag = download(x)
         if(etag != ""):
-            x["function"](x["name"])
+            x["function"](x)
             update_etag(x, etag)
-        print("Table " +x["name"] +" updated")
-    print("DB FULLY UPDATED! See you in 24 hours!")
+        print("-Table " +x["name"] +" is now up to date!")
+    print("\n\n*** DB FULLY UPDATED! See you in 24 hours! ***\nPlease keep this process running in the background\n")
 
 # Task scheduling
 schedule.every(24).hours.do(download_datasets)

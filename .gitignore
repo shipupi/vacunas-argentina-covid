@@ -6,6 +6,7 @@
 *.ko
 *.obj
 *.elf
+*.xlsx
 
 # Linker output
 *.ilk
