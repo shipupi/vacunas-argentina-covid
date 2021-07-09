@@ -67,7 +67,6 @@ def load_vaccine_names(tablename, vaccine_names):
             nomivac_name TEXT,\
             actas_de_recepcion_name TEXT\
             );")
-        print(vaccine_names)
         for vaccine in vaccine_names:
             cur.execute("INSERT INTO " +tablename +"(nomivac_name, actas_de_recepcion_name) VALUES(\'" +vaccine["nomivac_name"] +"\', \'" +vaccine["actas_de_recepcion_name"] +"\');")
         conn.commit()
@@ -366,14 +365,17 @@ def download_datasets():
         print("-Table " +x["name"] +" is now up to date!")
     print("\n\n*** DB FULLY UPDATED! See you in 24 hours! ***\nPlease keep this process running in the background\n")
 
-# Task scheduling
-schedule.every(24).hours.do(download_datasets)
+def main():
+    # Task scheduling
+    schedule.every(24).hours.do(download_datasets)
+    # Loop so that the scheduling task keeps on running all time.
+    os.chdir("../../data")
+    load_vaccine_names("vacunas", VACCINE_NAMES)
+    download_datasets()
+    while True:
+        # Checks whether a scheduled task is pending to run or not
+        schedule.run_pending()
+        time.sleep(1)
 
-# Loop so that the scheduling task keeps on running all time.
-os.chdir("../../data")
-load_vaccine_names("vacunas", VACCINE_NAMES)
-download_datasets()
-while True:
-    # Checks whether a scheduled task is pending to run or not
-    schedule.run_pending()
-    time.sleep(1)
+if __name__ == "__main__":
+    main()
