@@ -11,6 +11,11 @@ import os
 import re
 from configparser import ConfigParser
 
+# Dataset departamentos:
+# https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG
+
+OUTDATED_ETAG = "OUTDATED_ETAG"
+
 def config(filename='../src/config/database.ini', section='postgresql'):
     parser = ConfigParser()
     parser.read(filename)
@@ -82,12 +87,14 @@ def load_datos_nomivac_covid19(dataset):
         cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+f2_name +"' DELIMITER ',' NULL AS '' CSV HEADER")
         print("-Creating views for table " +tablename)
         cur.execute("CREATE MATERIALIZED VIEW timeline AS\
-                    SELECT jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, fecha_aplicacion, vacuna, orden_dosis, count(*) AS cantidad\
+                    SELECT jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, fecha_aplicacion, vacuna, orden_dosis, \
+                            concat(jurisdiccion_residencia_id, depto_residencia_id) AS codigo_indec, count(*) AS cantidad\
                     FROM " +tablename +"\
                     GROUP BY jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, fecha_aplicacion, vacuna, orden_dosis\
                     ORDER BY fecha_aplicacion, jurisdiccion_residencia_id, depto_residencia_id, vacuna, orden_dosis;")
         cur.execute("CREATE MATERIALIZED VIEW dosis_por_distrito AS\
-                    SELECT jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, vacuna, orden_dosis, count(*) AS cantidad\
+                    SELECT jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, vacuna, orden_dosis,\
+                            concat(jurisdiccion_residencia_id, depto_residencia_id) AS codigo_indec, count(*) AS cantidad\
                     FROM " +tablename +"\
                     GROUP BY jurisdiccion_residencia, jurisdiccion_residencia_id, depto_residencia, depto_residencia_id, vacuna, orden_dosis\
                     ORDER BY jurisdiccion_residencia_id, depto_residencia_id, vacuna, orden_dosis;")
@@ -167,7 +174,39 @@ def load_acta_recepcion(dataset):
         if conn is not None:
             conn.close()
 
+def load_geodata(dataset):
+    name = dataset["name"]
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        tablename = name
+        csvname = tablename+".csv"
+        cur.execute("DROP TABLE IF EXISTS " +tablename +";")
+        cur.execute("CREATE TABLE " +tablename +"(\
+            gid integer,\
+            objeto text,\
+            geom text,\
+            fna text,\
+            gna text,\
+            nam text,\
+            inl varchar(5),\
+            fdc text,\
+            sag text\
+            );")
+        cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+csvname +"' DELIMITER ',' CSV HEADER")
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
 def is_dataset_up_to_date(dataset, etag):
+    if (etag == OUTDATED_ETAG):
+        return False
     conn = None
     try:
         uptodate = False
@@ -216,11 +255,13 @@ def update_etag(dataset, etag):
             conn.close()
 
 def download(dataset):
-    if(dataset["name"] == "datos_nomivac_covid19" or dataset["name"] == "Covid19VacunasAgrupadas"):
+    if(dataset["name"] == "datos_nomivac_covid19" or dataset["name"] == "Covid19VacunasAgrupadas" or dataset["name"] == "departamento"):
         filename = dataset["name"] +".zip"
         csvname = dataset["name"] +".csv"
         r = requests.head(dataset["url"], allow_redirects=True)
-        etag = r.headers["ETag"]
+        etag = OUTDATED_ETAG
+        if ("ETag" in r.headers):
+            etag = r.headers["ETag"]
         if is_dataset_up_to_date(dataset, etag):
             print("-Etag up to date. No need to download again!")
             return ""
@@ -250,7 +291,8 @@ def download(dataset):
         return etag
 
 def download_datasets():
-    sets = [{"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
+    sets = [{"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/departamento/csv", "name": "departamento", "function": load_geodata},
+            {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
             {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "Covid19VacunasAgrupadas", "function": load_vacunas_agrupadas},
             {"url": "http://datos.salud.gob.ar/dataset/actas-de-recepcion-de-vacunas-covid-19/archivo/d2851fa6-b105-4f15-b352-dd3d792bd526", "name": "actas_de_recepcion_vacunas",
                 "sheet": "Carolina", "function": load_acta_recepcion}
