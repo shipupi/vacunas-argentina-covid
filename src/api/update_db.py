@@ -15,6 +15,11 @@ from configparser import ConfigParser
 # https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG
 
 OUTDATED_ETAG = "OUTDATED_ETAG"
+VACCINE_NAMES = [   {"nomivac_name": "Sputnik", "actas_de_recepcion_name": "LIMITED LIABILITY COMPANY HUMAN VACCINE"},
+                    {"nomivac_name": "COVISHIELD", "actas_de_recepcion_name": "SERUM LIFE SCIENCES LTD"},
+                    {"nomivac_name": "AstraZeneca", "actas_de_recepcion_name": "ASTRAZENECA (Mecanismo COVAX)"},
+                    {"nomivac_name": "Sinopharm", "actas_de_recepcion_name": "SINOPHARM INTERNATIONAL HONG KONG LIMITED"}
+                ]
 
 def config(filename='../src/config/database.ini', section='postgresql'):
     parser = ConfigParser()
@@ -50,6 +55,28 @@ def test_connect():
             conn.close()
             print('Database connection closed.')
 
+def load_vaccine_names(tablename, vaccine_names):
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.execute("DROP TABLE IF EXISTS " +tablename +";")
+        cur.execute("CREATE TABLE " +tablename +"(\
+            vaccine_id SERIAL PRIMARY KEY,\
+            nomivac_name TEXT,\
+            actas_de_recepcion_name TEXT\
+            );")
+        print(vaccine_names)
+        for vaccine in vaccine_names:
+            cur.execute("INSERT INTO " +tablename +"(nomivac_name, actas_de_recepcion_name) VALUES(\'" +vaccine["nomivac_name"] +"\', \'" +vaccine["actas_de_recepcion_name"] +"\');")
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
 
 def load_datos_nomivac_covid19(dataset):
     name = dataset["name"]
@@ -174,7 +201,7 @@ def load_acta_recepcion(dataset):
         if conn is not None:
             conn.close()
 
-def load_geodata(dataset):
+def load_departamentos(dataset):
     name = dataset["name"]
     conn = None
     try:
@@ -186,6 +213,37 @@ def load_geodata(dataset):
         cur.execute("DROP TABLE IF EXISTS " +tablename +";")
         cur.execute("CREATE TABLE " +tablename +"(\
             gid integer,\
+            objeto text,\
+            geom text,\
+            fna text,\
+            gna text,\
+            nam text,\
+            inl varchar(5),\
+            fdc text,\
+            sag text\
+            );")
+        cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+csvname +"' DELIMITER ',' CSV HEADER")
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+def load_provincias(dataset):
+    name = dataset["name"]
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        tablename = name
+        csvname = tablename+".csv"
+        cur.execute("DROP TABLE IF EXISTS " +tablename +";")
+        cur.execute("CREATE TABLE " +tablename +"(\
+            gid integer,\
+            entidad integer,\
             objeto text,\
             geom text,\
             fna text,\
@@ -255,7 +313,8 @@ def update_etag(dataset, etag):
             conn.close()
 
 def download(dataset):
-    if(dataset["name"] == "datos_nomivac_covid19" or dataset["name"] == "Covid19VacunasAgrupadas" or dataset["name"] == "departamento"):
+    if(dataset["name"] == "datos_nomivac_covid19" or dataset["name"] == "Covid19VacunasAgrupadas"
+                or dataset["name"] == "departamento" or dataset["name"] == "provincia"):
         filename = dataset["name"] +".zip"
         csvname = dataset["name"] +".csv"
         r = requests.head(dataset["url"], allow_redirects=True)
@@ -268,7 +327,7 @@ def download(dataset):
         print("-Downloading " +dataset["name"])
         r = requests.get(dataset["url"], allow_redirects=True)
         open(filename, 'wb').write(r.content)
-        time.sleep(1)
+        time.sleep(3)
         with zipfile.ZipFile(filename, 'r') as zip_ref:
             zip_ref.extractall(".")
         print("-Dataset " +dataset["name"] +" downloaded and extracted!")
@@ -291,7 +350,8 @@ def download(dataset):
         return etag
 
 def download_datasets():
-    sets = [{"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/departamento/csv", "name": "departamento", "function": load_geodata},
+    sets = [{"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/departamento/csv", "name": "departamento", "function": load_departamentos},
+            {"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/provincia/csv", "name": "provincia", "function": load_provincias},
             {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
             {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "Covid19VacunasAgrupadas", "function": load_vacunas_agrupadas},
             {"url": "http://datos.salud.gob.ar/dataset/actas-de-recepcion-de-vacunas-covid-19/archivo/d2851fa6-b105-4f15-b352-dd3d792bd526", "name": "actas_de_recepcion_vacunas",
@@ -311,6 +371,7 @@ schedule.every(24).hours.do(download_datasets)
 
 # Loop so that the scheduling task keeps on running all time.
 os.chdir("../../data")
+load_vaccine_names("vacunas", VACCINE_NAMES)
 download_datasets()
 while True:
     # Checks whether a scheduled task is pending to run or not

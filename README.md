@@ -1,5 +1,10 @@
 # vacunas-argentina-covid
 
+# TO DO:
+* Crear Endpoints
+* Hacer visualizaciones (probar que la tabla geodata tenga bien los datos)
+* Resolver bug donde al descargar nomivac a veces dice "File is not a zip file"
+
 Comandos para instalar dependencias:
 ```sh
 sudo apt-get install libpq-dev python-dev
@@ -26,7 +31,7 @@ python3 src/api/update_db.py
 
 
 *Choropleth por departamento/provincia*
-/dosisPorProvincia 
+/dosisPorProvincia
 ```json
 [
     {
@@ -39,7 +44,7 @@ python3 src/api/update_db.py
 ]
 ```
 
-/provinces 
+/provinces
 
 ```json
 [
@@ -65,7 +70,7 @@ python3 src/api/update_db.py
 ]
 ```
 
-/brands devuelve un vector de brands 
+/brands devuelve un vector de brands
 
 ```json
 [
@@ -92,4 +97,3 @@ brandId es opcional, sin brandId devuelve vector de todas
     }
 ]
 ```
-
