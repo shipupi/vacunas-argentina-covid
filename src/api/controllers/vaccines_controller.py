@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from typing import Optional
-from api.services.vaccines_service import get_arrivals, get_bignumbers
+from api.services.vaccines_service import get_arrivals, get_bignumbers, get_timeline
 
 router = APIRouter()
 
@@ -14,3 +14,8 @@ async def list_arrivals():
 async def bignumbers():
     bn = get_bignumbers()
     return bn
+
+@router.get("/timeline")
+async def timeline():
+    timeline = get_timeline()
+    return timeline

@@ -1,7 +1,6 @@
 # vacunas-argentina-covid
 
 # TO DO:
-* Crear Endpoints
 * Hacer visualizaciones (probar que la tabla geodata tenga bien los datos)
 * Resolver bug donde al descargar nomivac a veces dice "File is not a zip file"
 
@@ -117,19 +116,8 @@ Queryparams:
 ]
 ```
 
-/brands devuelve un vector de brands
-
-```json
-[
-    {
-        "id": 1,
-        "brand": "sputnik"
-    },
-]
-```
-
-/demoradeaplicacion/:brandId?
-brandId es opcional, sin brandId devuelve vector de todas
+/timelilne
+Timeline devuelve dia a dia las aplicaciones de cada vacuna, separado por primera dosis o segunda dosis y por la marca de la vacuna
 ```json
 [
     {
@@ -144,3 +132,29 @@ brandId es opcional, sin brandId devuelve vector de todas
     }
 ]
 ```
+
+/arrivals
+Timeline de arrival de vacunas, separado por marca de vacuna
+```json
+[
+  {
+    "empresa": "LIMITED LIABILITY COMPANY HUMAN VACCINE",
+    "cantidad": 765545,
+    "guia_aerea": "044-44033150",
+    "fecha_entrega": "2021-04-29",
+    "empresa_traslado": "None",
+    "vaccine_id": 1,
+    "nomivac_name": "Sputnik",
+    "actas_de_recepcion_name": "LIMITED LIABILITY COMPANY HUMAN VACCINE"
+  },
+  {
+    "empresa": "LIMITED LIABILITY COMPANY HUMAN VACCINE",
+    "cantidad": 800000,
+    "guia_aerea": "044-44033124",
+    "fecha_entrega": "2021-04-18",
+    "empresa_traslado": "Aerolíneas Argentinas",
+    "vaccine_id": 1,
+    "nomivac_name": "Sputnik",
+    "actas_de_recepcion_name": "LIMITED LIABILITY COMPANY HUMAN VACCINE"
+  }
+  ```

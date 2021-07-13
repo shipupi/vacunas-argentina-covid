@@ -1,9 +1,13 @@
 from api.persistence.db_driver import run_query
+from api.persistence.query_helper import Query
 from api.services.provinces_service import get_vaccines_by_province
 
 
 def get_arrivals():
-    arrivals  = run_query("SELECT * FROM actas_de_recepcion_vacunas")
+    # Hacemos a mano porque el query builder no soporta join
+    query = "SELECT * FROM actas_de_recepcion_vacunas, vacunas WHERE actas_de_recepcion_name = empresa "\
+        "ORDER BY fecha_entrega ASC, nomivac_name ASC"
+    arrivals  = run_query(query)
     return arrivals
 
 
@@ -25,3 +29,13 @@ def get_bignumbers():
     }
     return response
 
+def get_timeline():
+    query = Query("timeline")
+    fields = ["fecha_aplicacion", "orden_dosis", "vacuna"]
+    query.group_by(fields)
+    fields.append("sum(cantidad) as cantidad")
+    query.select(fields)
+    query.orderby("fecha_aplicacion", "ASC")
+    query.orderby("vacuna", "ASC")
+    query.orderby("orden_dosis", "ASC")
+    return run_query(query.get())

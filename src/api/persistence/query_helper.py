@@ -62,11 +62,11 @@ class Query:
                 i+= 1
         # ORDER
         if len(self.order) > 0:
-            query.append("GROUP BY  ")
+            query.append(" ORDER BY ")
             i = 0
             for k in self.order.keys():
                 if i != 0:
                     query.append(", ")
-                query.append(" {} {}".format(k, self.order.keys[k]))
+                query.append(" {} {}".format(k, self.order[k]))
                 i+= 1
         return ''.join(query)
