@@ -1,14 +1,14 @@
 from api.update_db import config
 import psycopg2
 
-def run_query(query):
+def run_query(query, data=None):
     conn = None
     results = []
     try:
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        cur.execute(query)
+        cur.execute(query, data)
         columns = list(cur.description)
         result = cur.fetchall()
         for row in result:

@@ -1,14 +1,15 @@
 from fastapi import APIRouter
-from api.services.vaccines_service import get_vaccines as svc_get_vaccines, get_arrivals  as svc_get_arrivals
-
+from typing import Optional
+from api.services.vaccines_service import get_arrivals
 
 router = APIRouter()
 
 # GET ALL VACCINE ARRIVAL DATA
 @router.get("/arrivals")
-async def get_arrivals():
-    arrivals = svc_get_arrivals()
+async def list_arrivals():
+    arrivals = get_arrivals()
     return arrivals
+
 
 
 
