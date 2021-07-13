@@ -10,9 +10,14 @@ import pandas as pd
 import os
 import re
 from configparser import ConfigParser
+from dotenv import dotenv_values
+
 
 # Dataset departamentos:
 # https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG
+
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+BASE_PATH = os.path.abspath(os.path.join(DIR_PATH, "../../"))
 
 OUTDATED_ETAG = "OUTDATED_ETAG"
 VACCINE_NAMES = [   {"nomivac_name": "Sputnik", "actas_de_recepcion_name": "LIMITED LIABILITY COMPANY HUMAN VACCINE"},
@@ -21,18 +26,11 @@ VACCINE_NAMES = [   {"nomivac_name": "Sputnik", "actas_de_recepcion_name": "LIMI
                     {"nomivac_name": "Sinopharm", "actas_de_recepcion_name": "SINOPHARM INTERNATIONAL HONG KONG LIMITED"}
                 ]
 
-def config(filename='../src/config/database.ini', section='postgresql'):
-    parser = ConfigParser()
-    parser.read(filename)
-    db = {}
-    if parser.has_section(section):
-        params = parser.items(section)
-        for param in params:
-            db[param[0]] = param[1]
-    else:
-        raise Exception('Section {0} not found in the {1} file'.format(section, filename))
-    return db
-
+def config():
+    conf = dotenv_values(os.path.abspath(os.path.join(BASE_PATH, ".env")))
+    if "database" not in conf:
+        raise Exception('Invalid .env file')
+    return conf
 def test_connect():
     conn = None
     try:
@@ -349,7 +347,8 @@ def download(dataset):
         return etag
 
 def download_datasets():
-    sets = [{"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/departamento/csv", "name": "departamento", "function": load_departamentos},
+    sets = [
+            {"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/departamento/csv", "name": "departamento", "function": load_departamentos},
             {"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/provincia/csv", "name": "provincia", "function": load_provincias},
             {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
             {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "Covid19VacunasAgrupadas", "function": load_vacunas_agrupadas},
@@ -369,7 +368,11 @@ def main():
     # Task scheduling
     schedule.every(24).hours.do(download_datasets)
     # Loop so that the scheduling task keeps on running all time.
-    os.chdir("../../data")
+
+    data_dir = os.path.abspath(os.path.join(BASE_PATH, "data"))
+    if not os.path.isdir(data_dir):
+        os.mkdir(data_dir)
+    os.chdir(data_dir)
     load_vaccine_names("vacunas", VACCINE_NAMES)
     download_datasets()
     while True:

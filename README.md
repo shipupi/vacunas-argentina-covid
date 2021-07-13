@@ -8,24 +8,22 @@
 Comandos para instalar dependencias:
 ```sh
 sudo apt-get install libpq-dev python-dev
-pip3 install fastapi
-pip3 install uvicorn
-pip3 install schedule
-pip3 install psycopg2
+pip install -r requirements.txt
 ```
 
-Comando para levantar la API desde src/api:
+Comando para levantar la API desde src:
 ```sh
 uvicorn main:app --reload
 ```
 
 Comando para actualizar la DB.
-Los datos de la DB se configuran desde src/config/database.ini
+
+Para configurar la conexion a la db, se debe crear el archivo .env con el host, usuario y clave. Se recomienda renombrar el archivo .env.example a .env, y cambiar los valores segun sea adecuado.
+
 Si se lo deja corriendo, cada 24 hrs volverá a bajar los datos:
 ```sh
 python3 src/api/update_db.py
 ```
-
 
 ## Endpoints / Graficos a mostrar
 
