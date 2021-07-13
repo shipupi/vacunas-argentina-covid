@@ -142,7 +142,7 @@ def load_vacunas_agrupadas(dataset):
         csvname = tablename+".csv"
         cur.execute("DROP TABLE IF EXISTS " +tablename +";")
         cur.execute("CREATE TABLE " +tablename +"(\
-            jurisdiccion_codigo_indec integer,\
+            jurisdiccion_codigo_indec varchar(2),\
             jurisdiccion_nombre text,\
             vacuna_nombre text,\
             primera_dosis_cantidad integer,\

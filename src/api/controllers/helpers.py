@@ -6,6 +6,6 @@ def validate_int_parameter(param):
 
 
 def validate_bool_param(param):
-    if param and param.lowercase() == "true":
+    if param and param.lower() == "true":
         return True
     return False
