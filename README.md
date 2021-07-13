@@ -6,12 +6,20 @@
 * Resolver bug donde al descargar nomivac a veces dice "File is not a zip file"
 
 Comandos para instalar dependencias:
+
+En caso de no tener python instalado, instalar python, o buscar algun entorno de python mas conveniente:
+
 ```sh
 sudo apt-get install libpq-dev python-dev
+```
+
+Luego instalar las dependencias del proyecto
+
+```sh
 pip install -r requirements.txt
 ```
 
-Comando para levantar la API desde src:
+Comando para levantar la API desde src/:
 ```sh
 uvicorn main:app --reload
 ```
@@ -32,8 +40,7 @@ python3 src/api/update_db.py
 /provinces/vaccines
 
 Queryparams:
-- ProvinceId (string): Se filtra por una provincia en particular
-
+- ProvinceId (optional - string): Se filtra por una provincia en particular. Utilizando los Ids de provincia de Indec. Se pueden consultar en el endpoint /provinces
 Response: 
 ```json
 [
@@ -41,17 +48,14 @@ Response:
         "nombre": "Buenos Aires",
         "primera_dosis": 10000,
         "segunda_dosis": 10000,
-        "total_dosis": 10000,
+        "total_dosis": 20000,
     }
     // ... Demas provincias
 ]
 ```
 
-*Choropleth por departamento/provincia*
+*Choropleth de provincias*: Se adjuntan los datos geoespaciales de las provincias, para poder dibujar el pais junto con los datos de cada provincia
 /provinces/vaccines_geo
-
-Queryparams:
-- ProvinceId (string): Se filtra por una provincia en particular
 
 Response: 
 ```json
@@ -61,13 +65,13 @@ Response:
         "primera_dosis": 10000,
         "segunda_dosis": 10000,
         "total_dosis": 10000,
+        "geo": //geodata...
     }
     // ... Demas provincias
 ]
 ```
 
 /provinces
-
 ```json
 [
     {
@@ -77,8 +81,29 @@ Response:
 ]
 ```
 
-/dosisPorDepartamento/:provinceId
+/departments
+Lista los departamentos
+- ProvinceId (Optional - string): Se filtra por una provincia en particular. Utilizando los Ids de provincia de Indec. Se pueden consultar en el endpoint /provinces
+```json
+[
+  {
+    "gid": 245,
+    "fna": "Comuna 14",
+    "gna": "Comuna",
+    "nam": "Comuna 14",
+    "inl": "02098",
+    "fdc": "Direc. de Catastro",
+    "sag": "IGN"
+  },
+  // ...
+```
 
+
+*Choropleth de departamentos*: Se adjuntan los datos geoespaciales a los departamentos de una provincia,  para poder dibujar la provincia, junto con sus datos por cada departamento
+/departments/vaccines_geo
+
+Queryparams:
+- ProvinceId (required - string): Se filtra por una provincia en particular. Utilizando los Ids de provincia de Indec. Se pueden consultar en el endpoint /provinces
 ```json
 [
     {

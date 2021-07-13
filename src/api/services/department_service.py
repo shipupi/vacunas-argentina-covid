@@ -2,6 +2,17 @@ from api.persistance.db_driver import run_query
 from api.persistance.query_helper import Query
 
 
+def get_departments(province=None):
+    query = Query("departamento")
+    query.select(["gid", "fna", "gna", "nam", "inl", "fdc", "sag"])
+    print(province)
+    if province:
+        query.where("inl LIKE %s || '%%'")
+        data = [province]
+    else:
+        data = None
+    departments = run_query(query.get(), data=data)   
+    return departments
 
 # Hacemos la query a mano porque el join no es soportado por el query builder
 def get_province_geospatial(province):
@@ -16,3 +27,33 @@ def get_province_geospatial(province):
     print(query)
     data = [province]
     return run_query(query, data=data)
+
+def get_vaccines_by_department(province=None):
+    query = Query("dosis_por_distrito")
+    if province:
+        query.where("jurisdiccion_residencia_id = %s")
+        data = [province]
+    else:
+        data = None
+    departments = run_query(query.get(), data=data)
+    departments_merged = {}
+    for d in departments:
+        dept_id = d["codigo_indec"]
+        ndosis = d["orden_dosis"]
+        this_dosis = "primera_dosis"
+        other_dosis = "segunda_dosis"
+        if ndosis == 2:
+            this_dosis = "segunda_dosis"
+            other_dosis = "primera_dosis"
+        if dept_id in departments_merged:
+            departments_merged[dept_id][this_dosis] += d["cantidad"]
+            departments_merged[dept_id]["total_dosis"] += d["cantidad"]
+        else:
+            d[this_dosis] = d["cantidad"]
+            d[other_dosis] = 0
+            d["total_dosis"] = d["cantidad"]
+            del d["vacuna"]
+            del d["orden_dosis"]
+            del d["cantidad"]
+            departments_merged[dept_id] = d
+    return list(departments_merged.values())
