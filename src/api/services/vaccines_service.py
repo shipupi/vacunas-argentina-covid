@@ -1,4 +1,4 @@
-from api.persistance.db_driver import run_query
+from api.persistence.db_driver import run_query
 from api.services.provinces_service import get_vaccines_by_province
 
 

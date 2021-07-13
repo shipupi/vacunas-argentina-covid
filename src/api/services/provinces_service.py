@@ -1,5 +1,5 @@
-from api.persistance.db_driver import run_query
-from api.persistance.query_helper import Query
+from api.persistence.db_driver import run_query
+from api.persistence.query_helper import Query
 
 def get_provinces():
     query = "Select gid, fna, gna, nam, inl FROM provincia"
