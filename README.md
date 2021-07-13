@@ -29,16 +29,40 @@ python3 src/api/update_db.py
 
 
 *Choropleth por departamento/provincia*
-/dosisPorProvincia
+/provinces/vaccines
+
+Queryparams:
+- ProvinceId (string): Se filtra por una provincia en particular
+
+Response: 
 ```json
 [
     {
         "nombre": "Buenos Aires",
-        "dosis": 10000,
-        "geospacial": {
-            //....
-        }
+        "primera_dosis": 10000,
+        "segunda_dosis": 10000,
+        "total_dosis": 10000,
     }
+    // ... Demas provincias
+]
+```
+
+*Choropleth por departamento/provincia*
+/provinces/vaccines_geo
+
+Queryparams:
+- ProvinceId (string): Se filtra por una provincia en particular
+
+Response: 
+```json
+[
+    {
+        "nombre": "Buenos Aires",
+        "primera_dosis": 10000,
+        "segunda_dosis": 10000,
+        "total_dosis": 10000,
+    }
+    // ... Demas provincias
 ]
 ```
 
@@ -47,7 +71,7 @@ python3 src/api/update_db.py
 ```json
 [
     {
-        "id": 1,
+        "id": "06",
         "pronvice": "buenos aires"
     }
 ]

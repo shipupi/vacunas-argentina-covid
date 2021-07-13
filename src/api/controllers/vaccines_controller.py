@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from typing import Optional
-from api.services.vaccines_service import get_arrivals
+from api.services.vaccines_service import get_arrivals, get_bignumbers
 
 router = APIRouter()
 
@@ -10,8 +10,10 @@ async def list_arrivals():
     arrivals = get_arrivals()
     return arrivals
 
-
-
+@router.get("/bignumbers")
+async def bignumbers():
+    bn = get_bignumbers()
+    return bn
 
 # from enum import Enum
 # def build_dict(cursor, row):
