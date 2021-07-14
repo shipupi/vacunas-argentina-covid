@@ -22,7 +22,7 @@ def get_all_vaccines_geodata():
         " sum(primera_dosis_cantidad) as primera_dosis, "\
         "sum(segunda_dosis_cantidad) as segunda_dosis, "\
         "sum(segunda_dosis_cantidad) + sum(primera_dosis_cantidad) as total_dosis, "\
-        "p.geom "\
+        "p.geom as geometry "\
         "from covid19vacunasagrupadas v, provincia p " \
         "WHERE v.jurisdiccion_codigo_indec = p.inl " \
         "GROUP BY jurisdiccion_codigo_indec, jurisdiccion_nombre, p.geom"

@@ -19,7 +19,7 @@ def get_province_geospatial(province):
     query = "SELECT depto_residencia, codigo_indec, depto_residencia_id, "\
         "sum(cantidad) as cantidad_dosis, "\
         "orden_dosis, "\
-        "dep.geom "\
+        "dep.geom as geometry "\
         "from dosis_por_distrito dosis, departamento dep " \
         "WHERE dosis.codigo_indec = dep.inl " \
         "AND dosis.jurisdiccion_residencia_id = %s "\

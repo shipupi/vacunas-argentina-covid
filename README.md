@@ -18,7 +18,7 @@ Luego instalar las dependencias del proyecto
 pip install -r requirements.txt
 ```
 
-Comando para levantar la API desde src/:
+Comando para levantar la API desde server/:
 ```sh
 uvicorn main:app --reload
 ```
@@ -29,7 +29,7 @@ Para configurar la conexion a la db, se debe crear el archivo .env con el host, 
 
 Si se lo deja corriendo, cada 24 hrs volverá a bajar los datos:
 ```sh
-python3 src/api/update_db.py
+python3 server/api/update_db.py
 ```
 
 ## Endpoints / Graficos a mostrar

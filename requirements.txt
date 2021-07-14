@@ -5,3 +5,7 @@ lxml
 openpyxl
 psycopg2-binary
 python-dotenv
+altair
+geopandas
+altair_viewer
+vega_datasets
