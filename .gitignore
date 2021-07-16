@@ -47,6 +47,7 @@
 *.mod*
 *.cmd
 *.csv
+*.xlsx
 *.pyc
 .tmp_versions/
 modules.order
