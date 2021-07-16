@@ -53,6 +53,32 @@ def test_connect():
             conn.close()
             print('Database connection closed.')
 
+def load_populations():
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        tablename = "population"
+        csvname = "population.csv"
+        cur.execute("DROP TABLE IF EXISTS " +tablename +";")
+        cur.execute("CREATE TABLE " +tablename +"(\
+            provincia text,\
+            provinciaID varchar(2),\
+            departamento text,\
+            departamentoID varchar(5),\
+            pop2010 integer,\
+            pop2021 integer\
+            );")
+        cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+csvname +"' DELIMITER ',' CSV HEADER")
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
 def load_vaccine_names(tablename, vaccine_names):
     conn = None
     try:
@@ -365,14 +391,14 @@ def download_datasets():
     print("\n\n*** DB FULLY UPDATED! See you in 24 hours! ***\nPlease keep this process running in the background\n")
 
 def main():
-    # Task scheduling
-    schedule.every(24).hours.do(download_datasets)
-    # Loop so that the scheduling task keeps on running all time.
-
     data_dir = os.path.abspath(os.path.join(BASE_PATH, "data"))
     if not os.path.isdir(data_dir):
         os.mkdir(data_dir)
     os.chdir(data_dir)
+    # Task scheduling
+    load_populations()
+    schedule.every(24).hours.do(download_datasets)
+    # Loop so that the scheduling task keeps on running all time.
     load_vaccine_names("vacunas", VACCINE_NAMES)
     download_datasets()
     while True:
