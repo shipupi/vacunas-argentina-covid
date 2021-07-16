@@ -54,6 +54,7 @@ def test_connect():
             print('Database connection closed.')
 
 def load_populations():
+    print("Starting population load")
     conn = None
     try:
         params = config()
@@ -73,6 +74,7 @@ def load_populations():
         cur.execute("COPY " +tablename +" FROM '" +os.getcwd()+"/"+csvname +"' DELIMITER ',' CSV HEADER")
         conn.commit()
         cur.close()
+        print("Population loaded successfully")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
