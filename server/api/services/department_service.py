@@ -2,16 +2,20 @@ from api.persistence.db_driver import run_query
 from api.persistence.query_helper import Query
 
 
-def get_departments(province=None):
+def get_departments_by_province(province):
     query = Query("departamento")
-    query.select(["gid", "fna", "gna", "nam", "inl", "fdc", "sag"])
-    print(province)
-    if province:
-        query.where("inl LIKE %s || '%%'")
-        data = [province]
-    else:
-        data = None
-    departments = run_query(query.get(), data=data)   
+    query.select(["gid", "fna", "gna", "nam", "inl", "fdc", "sag", "pop2021 as poblacion"])
+    query.join("population", "inl", "departamentoid")
+    query.where("inl LIKE %s || '%%'")
+    data = [province]
+    departments = run_query(query.get(), data=data)
+    return departments
+
+def get_departments():
+    query = Query("departamento")
+    query.select(["gid", "fna", "gna", "nam", "inl", "fdc", "sag", "pop2021 as poblacion"])
+    query.join("population", "inl", "departamentoid")
+    departments = run_query(query.get())
     return departments
 
 # Hacemos la query a mano porque el join no es soportado por el query builder
@@ -56,4 +60,5 @@ def get_vaccines_by_department(province=None):
             del d["orden_dosis"]
             del d["cantidad"]
             departments_merged[dept_id] = d
+
     return list(departments_merged.values())

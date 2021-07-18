@@ -41,11 +41,12 @@ def barchart():
     chart.show()
 
 def main():
-    # barchart()
-    choropleth_pais()
+    barchart()
+    # choropleth_pais()
 
 if __name__ == "__main__":
     alt.renderers.enable('html')
-
+    # Mimetype se supone que hace una visualizacion desde el vscode, pero no me funciona
+    # Por eso dejo la linea de arriba que hace renderer con html
     # alt.renderers.enable('mimetype')
     main()

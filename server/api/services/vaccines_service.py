@@ -13,19 +13,23 @@ def get_arrivals():
 
 def get_bignumbers():
     by_province = get_vaccines_by_province()
-    print(by_province)
 
     first_dose = 0
     second_dose = 0
     total = 0
+    population = 0
     for p in by_province:
         first_dose += p["primera_dosis"]
         second_dose += p["segunda_dosis"]
         total+= p["total_dosis"]
+        population += p["poblacion"]
     response = {
         "primera_dosis": first_dose,
         "segunda_dosis": second_dose,
-        "total": total
+        "total_dosis": total,
+        "poblacion": population,
+        "porcentaje_primera_dosis": round(first_dose / population, 2),
+        "porcentaje_ambas_dosis": round(second_dose / population, 2)
     }
     return response
 
