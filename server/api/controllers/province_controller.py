@@ -16,7 +16,7 @@ async def list_vaccines(province: Optional[str] = None):
     if province:
         vaccines = get_vaccines_by_single_province(province)
     else:
-        vaccines = get_vaccines_by_province(province=province)
+        vaccines = get_vaccines_by_province()
 
     return vaccines
 
@@ -24,14 +24,4 @@ async def list_vaccines(province: Optional[str] = None):
 async def list_vaccines_geo(province: Optional[str] = None):
     # Get data
     vaccines = get_all_vaccines_geodata()
-    return vaccines
-
-@router.get("/provinces/vaccines")
-async def list_vaccines(province: Optional[str] = None, geodata: Optional[str] = None, department: Optional[str] = None):
-    # Validate query params
-    # province = validate_int_parameter(province)
-    geodata = validate_bool_param(geodata)
-
-    # Get data
-    vaccines = get_vaccines_by_province(province=province, geospatial=geodata)
     return vaccines

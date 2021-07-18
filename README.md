@@ -116,7 +116,7 @@ Queryparams:
 ]
 ```
 
-/timelilne
+/brand_timelilne
 Timeline devuelve dia a dia las aplicaciones de cada vacuna, separado por primera dosis o segunda dosis y por la marca de la vacuna
 ```json
 [
@@ -158,3 +158,9 @@ Timeline de arrival de vacunas, separado por marca de vacuna
     "actas_de_recepcion_name": "LIMITED LIABILITY COMPANY HUMAN VACCINE"
   }
   ```
+
+/timeline
+Devuelve una timeline con todas las marcas agregadas. Y el acumulado de vacunas y porcentaje vacunados
+```json
+
+```

@@ -20,7 +20,7 @@ async def list_vaccines_geo(province: str):
     return vaccines
 
 @router.get("/departments/vaccines")
-async def list_vaccines(province: str):
+async def list_vaccines(province: Optional[str] = None):
     # Get data
     vaccines = get_vaccines_by_department(province)
     return vaccines

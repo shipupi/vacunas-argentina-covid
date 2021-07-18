@@ -31,7 +31,6 @@ def get_vaccines_by_province():
     query.queryjoin(pop_query, "pops", "jurisdiccion_codigo_indec", "provinciaid")
     query.group_by(["jurisdiccion_codigo_indec", "jurisdiccion_nombre", "population"])
     query.select(["jurisdiccion_codigo_indec", "jurisdiccion_nombre, sum(primera_dosis_cantidad) as primera_dosis, sum(segunda_dosis_cantidad) as segunda_dosis, sum(segunda_dosis_cantidad) + sum(primera_dosis_cantidad) as total_dosis", "population as poblacion"])
-    print(query.get())
     result = run_query(query.get())
     
     for e in result:
@@ -41,13 +40,18 @@ def get_vaccines_by_province():
 
 
 def get_all_vaccines_geodata():
-    # Hacemos la query a mano porque el join no es soportado por el query builder
-    query = "SELECT v.jurisdiccion_codigo_indec, v.jurisdiccion_nombre,"\
-        " sum(primera_dosis_cantidad) as primera_dosis, "\
-        "sum(segunda_dosis_cantidad) as segunda_dosis, "\
-        "sum(segunda_dosis_cantidad) + sum(primera_dosis_cantidad) as total_dosis, "\
-        "p.geom as geometry "\
-        "from covid19vacunasagrupadas v, provincia p " \
-        "WHERE v.jurisdiccion_codigo_indec = p.inl " \
-        "GROUP BY jurisdiccion_codigo_indec, jurisdiccion_nombre, p.geom"
-    return run_query(query)
+    query = Query("covid19vacunasagrupadas")
+    query.select(["jurisdiccion_codigo_indec", "jurisdiccion_nombre", "sum(primera_dosis_cantidad) as primera_dosis", "sum(segunda_dosis_cantidad) as segunda_dosis", "population as poblacion", "geom as geometry"])
+    query.join("provincia", "jurisdiccion_codigo_indec", "inl")
+    pop_query = Query("population")
+    pop_query.group_by(["provinciaid", "provincia"])
+    pop_query.select(["provincia", "provinciaid", "sum(pop2021) as population"])
+    query.queryjoin(pop_query, "pops", "jurisdiccion_codigo_indec", "provinciaid")
+    query.group_by(["jurisdiccion_codigo_indec", "jurisdiccion_nombre", "geom", "population"])
+
+    result = run_query(query.get())
+    
+    for e in result:
+        e["porc_primera_dosis"] = round((e["primera_dosis"] / e["poblacion"]) * 100, 2)
+        e["porc_ambas_dosis"] = round((e["segunda_dosis"] / e["poblacion"]) * 100, 2)
+    return result

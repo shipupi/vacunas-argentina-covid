@@ -26,14 +26,13 @@ def get_bignumbers():
     response = {
         "primera_dosis": first_dose,
         "segunda_dosis": second_dose,
-        "total_dosis": total,
         "poblacion": population,
-        "porcentaje_primera_dosis": round(first_dose / population, 2),
-        "porcentaje_ambas_dosis": round(second_dose / population, 2)
+        "porcentaje_primera_dosis": round(first_dose / population * 100, 2),
+        "porcentaje_ambas_dosis": round(second_dose / population * 100, 2)
     }
     return response
 
-def get_timeline():
+def get_brand_timeline():
     query = Query("timeline")
     fields = ["fecha_aplicacion", "orden_dosis", "vacuna"]
     query.group_by(fields)
@@ -43,3 +42,54 @@ def get_timeline():
     query.orderby("vacuna", "ASC")
     query.orderby("orden_dosis", "ASC")
     return run_query(query.get())
+
+def get_timeline():
+    query = Query("timeline")
+    fields = ["fecha_aplicacion", "orden_dosis"]
+    query.group_by(fields)
+    fields.append("sum(cantidad) as cantidad")
+    query.select(fields)
+    query.orderby("fecha_aplicacion", "ASC")
+    query.orderby("orden_dosis", "ASC")
+
+    result = run_query(query.get())
+    days = {}
+    acums = {
+        "primera_dosis": 0,
+        "segunda_dosis": 0
+    }
+    # Asumimos que vienen ordenados por dia. Por eso podemos llevar el contador de acums por afuera del ciclo
+    # Sin tener que buscar el valor del dia anterior
+    for r in result:
+        ndosis = r["orden_dosis"]
+        this_dosis = "primera_dosis"
+        other_dosis = "segunda_dosis"
+        if ndosis == 2:
+            this_dosis = "segunda_dosis"
+            other_dosis = "primera_dosis"
+        day = r["fecha_aplicacion"]
+        if day in days:
+            days[day][this_dosis] = r["cantidad"]
+            acums[this_dosis] += r["cantidad"]
+            days[day]["acum_{}".format(this_dosis)] = acums[this_dosis]
+        else:
+            acums[this_dosis] += r["cantidad"]
+            days[day] = {
+                "fecha": day,
+                this_dosis: r["cantidad"],
+                "acum_{}".format(this_dosis): acums[this_dosis]
+            }
+    
+    last = {
+        "primera_dosis": 0,
+        "segunda_dosis": 0
+    }
+    for d in days:
+        print(d)
+        for dosis in last:
+            if dosis not in days[d]:
+                days[d][dosis] = 0
+                days[d]["acum_{}".format(dosis)] = last[dosis]
+            else:
+                last[dosis] = days[d]["acum_{}".format(dosis)]
+    return list(days.values())
