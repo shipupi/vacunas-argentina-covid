@@ -123,7 +123,7 @@ def load_datos_nomivac_covid19(dataset):
                         .replace('\"COMUNA 4\",\"004\"', '\"COMUNA 4\",\"028\"')
                         .replace('\"COMUNA 5\",\"005\"', '\"COMUNA 5\",\"035\"')
                         .replace('\"COMUNA 6\",\"006\"', '\"COMUNA 6\",\"042\"')
-                        .replace('\"COMUNA 7\",\"007\"', '\"COMUNA 7\",\"048\"')
+                        .replace('\"COMUNA 7\",\"007\"', '\"COMUNA 7\",\"049\"')
                         .replace('\"COMUNA 8\",\"008\"', '\"COMUNA 8\",\"056\"')
                         .replace('\"COMUNA 9\",\"009\"', '\"COMUNA 9\",\"063\"')
                         .replace('\"COMUNA 10\",\"010\"', '\"COMUNA 10\",\"070\"')
@@ -366,7 +366,7 @@ def download(dataset):
             print("-Etag up to date. No need to download again!")
             return ""
         print("-Downloading " +dataset["name"])
-        r = requests.get(dataset["url"], allow_redirects=True)
+        r = requests.get(dataset["url"], allow_redirects=True, timeout=20)
         open(filename, 'wb').write(r.content)
         time.sleep(3)
         with zipfile.ZipFile(filename, 'r') as zip_ref:
