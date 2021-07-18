@@ -5,8 +5,8 @@ Buenos Aires,06,Adolfo Alsina,06007,17222,17507
 Buenos Aires,06,Adolfo Gonzales Chaves,06014,12168,11899
 Buenos Aires,06,Alberti,06021,10746,11018
 Buenos Aires,06,Almirante Brown,06028,557025,601618
-Buenos Aires,06,Arrecifes,06077,29252,3152
-Buenos Aires,06,Avellaneda,06035,345752,35744
+Buenos Aires,06,Arrecifes,06077,29252,31520
+Buenos Aires,06,Avellaneda,06035,345752,357440
 Buenos Aires,06,Ayacucho,06042,20505,21364
 Buenos Aires,06,Azul,06049,65836,67835
 Buenos Aires,06,Bahía Blanca,06056,304206,310639
@@ -41,7 +41,7 @@ Buenos Aires,06,Escobar,06252,215256,258805
 Buenos Aires,06,Esteban Echeverría,06260,300785,377237
 Buenos Aires,06,Exaltación de la Cruz,06266,29888,37161
 Buenos Aires,06,Ezeiza,06270,163287,224228
-Buenos Aires,06,Florencio Varela,06274,426738,52527
+Buenos Aires,06,Florencio Varela,06274,426738,525270
 Buenos Aires,06,Florentino Ameghino,06277,8932,9711
 Buenos Aires,06,General Alvarado,06280,39837,44546
 Buenos Aires,06,General Alvear,06287,11234,11503
@@ -64,13 +64,13 @@ Buenos Aires,06,Hipólito Yrigoyen,06406,9657,10318
 Buenos Aires,06,Hurlingham,06408,182604,194597
 Buenos Aires,06,Ituzaingó,06410,169038,182011
 Buenos Aires,06,José C. Paz,06412,267275,311187
-Buenos Aires,06,Junín,06413,91192,9344
+Buenos Aires,06,Junín,06413,91192,93440
 Buenos Aires,06,La Costa,06420,70033,79341
 Buenos Aires,06,La Matanza,06427,1777530,2327874
-Buenos Aires,06,Lanús,06434,463555,46276
+Buenos Aires,06,Lanús,06434,463555,462760
 Buenos Aires,06,La Plata,06441,659575,719013
 Buenos Aires,06,Laprida,06448,10287,10962
-Buenos Aires,06,Las Flores,06455,24087,2441
+Buenos Aires,06,Las Flores,06455,24087,24410
 Buenos Aires,06,Leandro N. Alem,06462,16942,17489
 Buenos Aires,06,Lezama,06466,5661,5661
 Buenos Aires,06,Lincoln,06469,42204,42323
@@ -87,7 +87,7 @@ Buenos Aires,06,Mercedes,06532,63759,68165
 Buenos Aires,06,Merlo,06539,531609,613509
 Buenos Aires,06,Monte,06547,21111,24198
 Buenos Aires,06,Monte Hermoso,06553,6534,7468
-Buenos Aires,06,Moreno,06560,454416,54993
+Buenos Aires,06,Moreno,06560,454416,549930
 Buenos Aires,06,Morón,06568,324279,318104
 Buenos Aires,06,Navarro,06574,17184,18301
 Buenos Aires,06,Necochea,06581,93730,96204
@@ -103,7 +103,7 @@ Buenos Aires,06,Presidente Perón,06648,81166,108203
 Buenos Aires,06,Puán,06651,15871,14972
 Buenos Aires,06,Punta Indio,06655,9964,10635
 Buenos Aires,06,Quilmes,06658,586462,672199
-Buenos Aires,06,Ramallo,06665,33218,3818
+Buenos Aires,06,Ramallo,06665,33218,38180
 Buenos Aires,06,Rauch,06672,15293,16246
 Buenos Aires,06,Rivadavia,06679,16317,17184
 Buenos Aires,06,Rojas,06686,23630,24401
@@ -128,12 +128,12 @@ Buenos Aires,06,Tigre,06805,376515,470776
 Buenos Aires,06,Tordillo,06812,1780,1809
 Buenos Aires,06,Tornquist,06819,12810,14047
 Buenos Aires,06,Trenque Lauquen,06826,43326,46954
-Buenos Aires,06,Tres Arroyos,06833,57497,5766
+Buenos Aires,06,Tres Arroyos,06833,57497,57660
 Buenos Aires,06,Tres de Febrero,06840,343338,344117
 Buenos Aires,06,Tres Lomas,06847,8409,8872
 Buenos Aires,06,Vicente López,06861,272389,267257
 Buenos Aires,06,Villa Gesell,06868,31845,38606
-Buenos Aires,06,Villarino,06875,31162,3679
+Buenos Aires,06,Villarino,06875,31162,36790
 Buenos Aires,06,Zárate,06882,114957,129309
 CABA,02,COMUNA 1,02007,243946,257235
 CABA,02,COMUNA 10,02070,169372,170677
@@ -145,32 +145,32 @@ CABA,02,COMUNA 15,02105,182274,182485
 CABA,02,COMUNA 2,02014,150714,149371
 CABA,02,COMUNA 3,02021,191323,193425
 CABA,02,COMUNA 4,02028,234933,240437
-CABA,02,COMUNA 5,02035,185301,18767
-CABA,02,COMUNA 6,02042,183046,18562
+CABA,02,COMUNA 5,02035,185301,187670
+CABA,02,COMUNA 6,02042,183046,185620
 CABA,02,COMUNA 7,02049,236838,242188
 CABA,02,COMUNA 8,02056,219638,229541
 CABA,02,COMUNA 9,02063,168681,171444
 Catamarca,10,Ambato,10007,4599,4638
 Catamarca,10,Ancasti,10014,3011,2908
 Catamarca,10,Andalgalá,10021,18637,20102
-Catamarca,10,Antofagasta de la Sierra,10028,1476,167
+Catamarca,10,Antofagasta de la Sierra,10028,1476,1670
 Catamarca,10,Belén,10035,28598,31663
 Catamarca,10,Capayán,10042,16505,18882
-Catamarca,10,Capital,10049,163831,18525
+Catamarca,10,Capital,10049,163831,185250
 Catamarca,10,El Alto,10056,3672,3924
 Catamarca,10,Fray Mamerto Esquiú,10063,12209,13745
 Catamarca,10,La Paz,10070,23262,25392
 Catamarca,10,Paclín,10077,4314,4305
 Catamarca,10,Pomán,10084,11058,12569
-Catamarca,10,Santa María,10091,23200,2413
+Catamarca,10,Santa María,10091,23200,24130
 Catamarca,10,Santa Rosa,10098,12342,14336
 Catamarca,10,Tinogasta,10105,23030,23326
 Catamarca,10,Valle Viejo,10112,27932,32151
-Chaco,22,12 de Octubre,22036,22779,2664
+Chaco,22,12 de Octubre,22036,22779,26640
 Chaco,22,1º de Mayo,22126,10542,12701
-Chaco,22,25 de Mayo,22168,29936,3254
+Chaco,22,25 de Mayo,22168,29936,32540
 Chaco,22,2 de Abril,22039,7670,7909
-Chaco,22,9 de Julio,22105,29236,3255
+Chaco,22,9 de Julio,22105,29236,32550
 Chaco,22,Almirante Brown,22007,34758,43567
 Chaco,22,Bermejo,22014,25673,27761
 Chaco,22,Chacabuco,22028,31272,36517
@@ -190,7 +190,7 @@ Chaco,22,Quitilipi,22133,34888,39073
 Chaco,22,San Fernando,22140,400053,446661
 Chaco,22,San Lorenzo,22147,15073,16099
 Chaco,22,Sargento Cabral,22154,16273,18069
-Chaco,22,Tapenagá,22161,4210,426
+Chaco,22,Tapenagá,22161,4210,4260
 Chubut,26,Biedma,26007,83160,119737
 Chubut,26,Cushamen,26014,21118,24835
 Chubut,26,Escalante,26021,187917,238946
@@ -199,7 +199,7 @@ Chubut,26,Futaleufú,26035,43538,49418
 Chubut,26,Gaiman,26042,11253,13047
 Chubut,26,Gastre,26049,1454,1365
 Chubut,26,Languiñeo,26056,3130,3118
-Chubut,26,Mártires,26063,794000,711
+Chubut,26,Mártires,26063,794,711
 Chubut,26,Paso de Indios,26070,1897,1796
 Chubut,26,Rawson,26077,132849,145697
 Chubut,26,Río Senguer,26084,6073,6266
@@ -224,12 +224,12 @@ Córdoba,14,Río Primero,14105,47029,54501
 Córdoba,14,Río Seco,14112,13779,15659
 Córdoba,14,Río Segundo,14119,103966,117259
 Córdoba,14,San Alberto,14126,37021,44613
-Córdoba,14,San Javier,14133,53640,6079
+Córdoba,14,San Javier,14133,53640,60790
 Córdoba,14,San Justo,14140,206874,230517
-Córdoba,14,Santa María,14147,99377,12106
+Córdoba,14,Santa María,14147,99377,121060
 Córdoba,14,Sobremonte,14154,4735,5091
 Córdoba,14,Tercero Arriba,14161,112947,122294
-Córdoba,14,Totoral,14168,18574,22
+Córdoba,14,Totoral,14168,18574,22000
 Córdoba,14,Tulumba,14175,12958,14213
 Córdoba,14,Unión,14182,107298,118906
 Corrientes,18,Bella Vista,18007,38141,41918
@@ -253,7 +253,7 @@ Corrientes,18,Monte Caseros,18112,37236,42279
 Corrientes,18,Paso de los Libres,18119,49910,54326
 Corrientes,18,Saladas,18126,22831,24615
 Corrientes,18,San Cosme,18133,14732,16921
-Corrientes,18,San Luis del Palmar,18140,18033,201
+Corrientes,18,San Luis del Palmar,18140,18033,201000
 Corrientes,18,San Martín,18147,13467,15197
 Corrientes,18,San Miguel,18154,10856,11604
 Corrientes,18,San Miguel,18760,10856,11604
@@ -266,7 +266,7 @@ Entre Ríos,30,Diamante,30021,47112,51782
 Entre Ríos,30,Federación,30028,69640,84769
 Entre Ríos,30,Federal,30035,26298,28358
 Entre Ríos,30,Feliciano,30042,15332,16571
-Entre Ríos,30,Gualeguay,30049,52692,5913
+Entre Ríos,30,Gualeguay,30049,52692,59130
 Entre Ríos,30,Gualeguaychú,30056,111146,125501
 Entre Ríos,30,Islas del Ibicuy,30063,12273,13527
 Entre Ríos,30,La Paz,30070,68082,72378
@@ -279,7 +279,7 @@ Entre Ríos,30,Victoria,30105,36347,39974
 Entre Ríos,30,Villaguay,30113,49838,52876
 Formosa,34,Bermejo,34007,14614,16431
 Formosa,34,Formosa,34014,243648,273881
-Formosa,34,Laishi,34021,17777,1912
+Formosa,34,Laishi,34021,17777,19120
 Formosa,34,Matacos,34028,14930,17356
 Formosa,34,Patiño,34035,71425,77488
 Formosa,34,Pilagás,34042,19168,20663
@@ -312,9 +312,9 @@ La Pampa,42,Chical Co,42063,1547,1518
 La Pampa,42,Conhelo,42035,14487,14165
 La Pampa,42,Curacó,42042,1066,1204
 La Pampa,42,Guatraché,42070,9088,8838
-La Pampa,42,Hucal,42077,7768,737
-La Pampa,42,Lihuel Calel,42084,457000,314
-La Pampa,42,Limay Mahuida,42091,516000,590
+La Pampa,42,Hucal,42077,7768,7370
+La Pampa,42,Lihuel Calel,42084,457,314
+La Pampa,42,Limay Mahuida,42091,516,590
 La Pampa,42,Loventué,42098,8854,9147
 La Pampa,42,Maracó,42105,60477,67995
 La Pampa,42,Puelén,42112,9664,12423
@@ -357,7 +357,7 @@ Mendoza,50,Maipú,50070,175777,203581
 Mendoza,50,Maipú,50511,175777,203581
 Mendoza,50,Malargüe,50077,28151,35246
 Mendoza,50,Rivadavia,50084,57567,64071
-Mendoza,50,San Carlos,50091,33250,3991
+Mendoza,50,San Carlos,50091,33250,39910
 Mendoza,50,San Martín,50098,120667,136334
 Mendoza,50,San Rafael,50105,191943,215131
 Mendoza,50,Santa Rosa,50112,16744,17852
@@ -376,7 +376,7 @@ Misiones,54,Guaraní,54056,68585,80568
 Misiones,54,Iguazú,54063,82952,101413
 Misiones,54,Leandro N. Alem,54070,45612,49817
 Misiones,54,Libertador Grl. San Martín,54077,47102,52133
-Misiones,54,Montecarlo,54084,37187,4049
+Misiones,54,Montecarlo,54084,37187,40490
 Misiones,54,Oberá,54091,108681,122934
 Misiones,54,San Ignacio,54098,58463,61963
 Misiones,54,San Javier,54105,21155,23139
@@ -389,13 +389,13 @@ Neuquén,58,Collón Curá,58028,4717,4937
 Neuquén,58,Confluencia,58035,376434,431047
 Neuquén,58,Huiliches,58049,15274,18074
 Neuquén,58,Lácar,58056,30819,38429
-Neuquén,58,Loncopué,58063,7196,791
+Neuquén,58,Loncopué,58063,7196,7910
 Neuquén,58,Los Lagos,58070,12293,18248
 Neuquén,58,Minas,58077,7620,7963
 Neuquén,58,Ñorquín,58084,5649,6062
 Neuquén,58,Pehuenches,58091,23587,36189
-Neuquén,58,Picunches,58105,7294,813
-Neuquén,58,Picún Leufú,58098,4757,533
+Neuquén,58,Picunches,58105,7294,8130
+Neuquén,58,Picún Leufú,58098,4757,5330
 Neuquén,58,Zapala,58112,38019,40588
 Río Negro,62,25 de Mayo,62091,15971,19197
 Río Negro,62,9 de Julio,62049,3549,3313
@@ -404,11 +404,11 @@ Río Negro,62,Avellaneda,62014,35882,40774
 Río Negro,62,Bariloche,62021,135338,166443
 Río Negro,62,Conesa,62028,7177,8319
 Río Negro,62,El Cuy,62035,5348,6918
-Río Negro,62,General Roca,62042,326007,37445
+Río Negro,62,General Roca,62042,326007,374450
 Río Negro,62,Ñorquincó,62056,1782,1401
 Río Negro,62,Pichi Mahuida,62063,14368,14448
-Río Negro,62,Pilcaniyeu,62070,7526,953
-Río Negro,62,San Antonio,62077,29668,3746
+Río Negro,62,Pilcaniyeu,62070,7526,9530
+Río Negro,62,San Antonio,62077,29668,37460
 Río Negro,62,Valcheta,62084,7067,8697
 Salta,66,Anta,66007,58556,69909
 Salta,66,Cachi,66014,7487,7689
@@ -418,7 +418,7 @@ Salta,66,Cerrillos,66035,36363,49825
 Salta,66,Chicoana,66042,21127,24864
 Salta,66,General Güemes,66049,48194,55877
 Salta,66,Grl. José de San Martín,66056,160093,187231
-Salta,66,Guachipas,66063,3264,329
+Salta,66,Guachipas,66063,3264,3290
 Salta,66,Iruya,66070,6138,5752
 Salta,66,La Caldera,66077,7888,10804
 Salta,66,La Candelaria,66084,5828,6511
@@ -429,7 +429,7 @@ Salta,66,Metán,66112,41259,43947
 Salta,66,Molinos,66119,5783,5974
 Salta,66,Orán,66126,141683,164544
 Salta,66,Rivadavia,66133,30997,35499
-Salta,66,Rosario de la Frontera,66140,29644,3156
+Salta,66,Rosario de la Frontera,66140,29644,31560
 Salta,66,Rosario de Lerma,66147,39480,46467
 Salta,66,San Carlos,66154,7187,7077
 Salta,66,Santa Victoria,66161,10608,9777
@@ -450,11 +450,11 @@ San Juan,70,San Martín,70091,11360,12973
 San Juan,70,Santa Lucía,70098,49139,55904
 San Juan,70,Sarmiento,70105,22584,27331
 San Juan,70,Ullúm,70112,4995,5656
-San Juan,70,Valle Fértil,70119,7392,806
+San Juan,70,Valle Fértil,70119,7392,8060
 San Juan,70,Zonda,70133,4958,6181
 San Luis,74,Ayacucho,74007,19613,22266
 San Luis,74,Belgrano,74014,4104,4298
-San Luis,74,Chacabuco,74028,21318,2404
+San Luis,74,Chacabuco,74028,21318,24040
 San Luis,74,Coronel Pringles,74021,13541,14391
 San Luis,74,General Pedernera,74035,129349,147044
 San Luis,74,Gobernador Dupuy,74042,12122,12942
@@ -477,13 +477,13 @@ Santa Fe,82,General López,82042,194799,213608
 Santa Fe,82,General Obligado,82049,179786,201445
 Santa Fe,82,Iriondo,82056,68053,72429
 Santa Fe,82,La Capital,82063,535423,588016
-Santa Fe,82,Las Colonias,82070,106838,12416
+Santa Fe,82,Las Colonias,82070,106838,124160
 Santa Fe,82,Rosario,82084,1218189,1297681
 Santa Fe,82,San Cristóbal,82091,70216,77917
 Santa Fe,82,San Javier,82098,31581,34313
-Santa Fe,82,San Jerónimo,82105,82432,9072
+Santa Fe,82,San Jerónimo,82105,82432,90720
 Santa Fe,82,San Justo,82112,41755,44247
-Santa Fe,82,San Lorenzo,82119,160056,18714
+Santa Fe,82,San Lorenzo,82119,160056,187140
 Santa Fe,82,San Martín,82126,65105,71372
 Santa Fe,82,Vera,82133,52586,55104
 Santiago del Estero,86,Aguirre,86007,7658,8585
@@ -500,7 +500,7 @@ Santiago del Estero,86,General Taboada,86077,38424,40732
 Santiago del Estero,86,Guasayán,86084,7672,7997
 Santiago del Estero,86,Jiménez,86091,14434,16316
 Santiago del Estero,86,Juan F. Ibarra,86098,18176,19912
-Santiago del Estero,86,Loreto,86105,20086,2419
+Santiago del Estero,86,Loreto,86105,20086,24190
 Santiago del Estero,86,Mitre,86112,1906,2038
 Santiago del Estero,86,Moreno,86119,32228,38706
 Santiago del Estero,86,Ojo de Agua,86126,14118,15186
@@ -513,13 +513,13 @@ Santiago del Estero,86,Salavina,86168,11306,12204
 Santiago del Estero,86,San Martín,86175,9896,11019
 Santiago del Estero,86,Sarmiento,86182,4661,4784
 Santiago del Estero,86,Silípica,86189,7792,8021
-Tierra del Fuego,94,Antártida Argentina,94028,214000,291
+Tierra del Fuego,94,Antártida Argentina,94028,214,291
 Tierra del Fuego,94,Islas del Atlántico Sur,94021,17,17
 Tierra del Fuego,94,Río Grande,94007,72491,98277
 Tierra del Fuego,94,Ushuaia,94014,58956,79129
 Tucumán,90,Burruyacú,90007,37965,45927
 Tucumán,90,Capital,90084,565221,609681
-Tucumán,90,Chicligasta,90021,83026,9557
+Tucumán,90,Chicligasta,90021,83026,95570
 Tucumán,90,Cruz Alta,90014,185413,223148
 Tucumán,90,Famaillá,90028,35482,42813
 Tucumán,90,Graneros,90035,13961,15299
@@ -528,9 +528,9 @@ Tucumán,90,La Cocha,90049,19547,22479
 Tucumán,90,Leales,90056,56557,63575
 Tucumán,90,Lules,90063,70179,91554
 Tucumán,90,Monteros,90070,65428,76303
-Tucumán,90,Río Chico,90077,58467,6731
+Tucumán,90,Río Chico,90077,58467,67310
 Tucumán,90,Simoca,90091,31811,34613
 Tucumán,90,Tafí del Valle,90098,15363,17708
 Tucumán,90,Tafí Viejo,90105,124886,152557
-Tucumán,90,Trancas,90112,17844,2171
+Tucumán,90,Trancas,90112,17844,21710
 Tucumán,90,Yerba Buena,90119,76976,98537

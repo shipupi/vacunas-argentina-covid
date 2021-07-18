@@ -391,11 +391,10 @@ def download(dataset):
         return etag
 
 def download_datasets():
-    sets = [
+    sets = [{"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
+            {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "Covid19VacunasAgrupadas", "function": load_vacunas_agrupadas},
             {"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/departamento/csv", "name": "departamento", "function": load_departamentos},
             {"url": "https://dnsg.ign.gob.ar/apps/api/v1/capas-sig/Geodesia+y+demarcaci%C3%B3n/L%C3%ADmites/provincia/csv", "name": "provincia", "function": load_provincias},
-            {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip", "name": "datos_nomivac_covid19", "function": load_datos_nomivac_covid19},
-            {"url": "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv.zip", "name": "Covid19VacunasAgrupadas", "function": load_vacunas_agrupadas},
             {"url": "http://datos.salud.gob.ar/dataset/actas-de-recepcion-de-vacunas-covid-19/archivo/d2851fa6-b105-4f15-b352-dd3d792bd526", "name": "actas_de_recepcion_vacunas",
                 "sheet": "Carolina", "function": load_acta_recepcion}
             ]

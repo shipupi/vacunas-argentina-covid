@@ -4,7 +4,7 @@ from api.persistence.query_helper import Query
 
 def get_departments_by_province(province):
     query = Query("departamento")
-    query.select(["gid", "fna", "gna", "nam", "inl", "fdc", "sag", "pop2021 as poblacion"])
+    query.select(["provincia", "provinciaid", "nam", "inl", "pop2021 as poblacion"])
     query.join("population", "inl", "departamentoid")
     query.where("inl LIKE %s || '%%'")
     data = [province]
@@ -13,7 +13,7 @@ def get_departments_by_province(province):
 
 def get_departments():
     query = Query("departamento")
-    query.select(["gid", "fna", "gna", "nam", "inl", "fdc", "sag", "pop2021 as poblacion"])
+    query.select(["provincia", "provinciaid", "nam", "inl", "pop2021 as poblacion"])
     query.join("population", "inl", "departamentoid")
     departments = run_query(query.get())
     return departments
@@ -21,7 +21,7 @@ def get_departments():
 # Hacemos la query a mano porque el join no es soportado por el query builder
 def get_province_geospatial(province):
     query = Query("dosis_por_distrito")
-    query.select(["jurisdiccion_residencia", "jurisdiccion_residencia_id", "depto_residencia", "codigo_indec", "depto_residencia_id", "sum(cantidad) as cantidad", "pop2021 as poblacion", "orden_dosis"])
+    query.select(["jurisdiccion_residencia", "jurisdiccion_residencia_id", "depto_residencia", "codigo_indec", "depto_residencia_id", "sum(cantidad) as cantidad", "pop2021 as poblacion", "orden_dosis", "geom as geometry"])
     query.join("departamento", "codigo_indec", "inl")
     query.join("population", "codigo_indec", "departamentoid")
     query.where("jurisdiccion_residencia_id = %s")
