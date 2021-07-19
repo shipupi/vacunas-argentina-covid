@@ -1,9 +1,5 @@
 # vacunas-argentina-covid
 
-# TO DO:
-* Hacer visualizaciones (probar que la tabla geodata tenga bien los datos)
-* Resolver bug donde al descargar nomivac a veces dice "File is not a zip file"
-
 Comandos para instalar dependencias:
 
 En caso de no tener python instalado, instalar python, o buscar algun entorno de python mas conveniente:
@@ -15,11 +11,12 @@ sudo apt-get install libpq-dev python-dev
 Luego instalar las dependencias del proyecto
 
 ```sh
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 ```
 
 Comando para levantar la API desde server/:
 ```sh
+cd server
 uvicorn main:app --reload
 ```
 
