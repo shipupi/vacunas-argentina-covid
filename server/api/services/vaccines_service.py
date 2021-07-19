@@ -52,6 +52,10 @@ def get_timeline():
     query.orderby("fecha_aplicacion", "ASC")
     query.orderby("orden_dosis", "ASC")
 
+    pop_query = Query("population")
+    pop_query.select("sum(pop2021) as sum")
+    pop = run_query(pop_query.get())
+    pop = pop[0]['sum']
     result = run_query(query.get())
     days = {}
     acums = {
@@ -72,12 +76,14 @@ def get_timeline():
             days[day][this_dosis] = r["cantidad"]
             acums[this_dosis] += r["cantidad"]
             days[day]["acum_{}".format(this_dosis)] = acums[this_dosis]
+            days[day]["porc_{}".format(this_dosis)] = round(acums[this_dosis] / pop * 100, 2)
         else:
             acums[this_dosis] += r["cantidad"]
             days[day] = {
                 "fecha": day,
                 this_dosis: r["cantidad"],
-                "acum_{}".format(this_dosis): acums[this_dosis]
+                "acum_{}".format(this_dosis): acums[this_dosis],
+                "porc_{}".format(this_dosis): round(acums[this_dosis] / pop * 100, 2)
             }
     
     last = {
@@ -85,11 +91,11 @@ def get_timeline():
         "segunda_dosis": 0
     }
     for d in days:
-        print(d)
         for dosis in last:
             if dosis not in days[d]:
                 days[d][dosis] = 0
                 days[d]["acum_{}".format(dosis)] = last[dosis]
+                days[d]["porc_{}".format(dosis)] = round(last[dosis] / pop * 100, 2)
             else:
                 last[dosis] = days[d]["acum_{}".format(dosis)]
     return list(days.values())
