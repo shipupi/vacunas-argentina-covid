@@ -1,0 +1,163 @@
+swagger: "2.0"
+info:
+  description: "."
+  version: "1.0.0"
+  title: "Vacunas Argentina Covid - "
+  contact:
+    email: "bail@itba.edu.ar"
+  license:
+    name: "MIT License"
+    url: "https://github.com/shipupi/vacunas-argentina-covid/blob/main/LICENSE"
+host: "localhost:8000"
+basePath: "/"
+schemes:
+- "http"
+paths:
+  /bignumbers:
+    get:
+      tags:
+      - "Vaccines"
+      summary: "Get representative big numbers"
+      operationId: "bigNumbers"
+      produces:
+      - "application/json"
+      responses: 
+        "200":
+          "description": "success"
+      security: []
+  /arrivals:
+    get:
+      tags: 
+      - "Vaccines"
+      summary: "Get timeline of vaccine arrivals"
+      operationId: "arrivals"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+  /timeline:
+    get:
+      tags: 
+      - "Vaccines"
+      summary: "Get timeline of vaccine applications. With accumulated totals and percentage of population"
+      operationId: "timeline"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+  /brand_timeline:
+    get:
+      tags: 
+      - "Vaccines"
+      summary: "Get timeline of vaccine applications. Divided by brand"
+      operationId: "brand_timeline"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+
+
+  /provinces:
+    get:
+      tags: 
+      - "Provinces"
+      summary: "Get list of provinces to get provinceIds for other endpoints."
+      operationId: "list_provinces"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+  
+  /provinces/vaccines:
+    get:
+      tags:
+        - "Provinces"
+      summary: "Get vaccine applications, aggregated by province, along with population and percentages"
+      operationId: "get_vaccines_by_province"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "province"
+        in: "query"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+
+  
+  /provinces/vaccines_geo:
+    get:
+      tags:
+        - "Provinces"
+      summary: "Get vaccine applications, aggregated by province, along with population and percentages. Also adds GeoData to make choropleth graphs"
+      operationId: "get_vaccines_by_province_geo"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+  
+  /departments:
+    get:
+      tags: 
+      - "Departments"
+      summary: "Get list of departments. Can be filtered to a single province"
+      operationId: "list_departments"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "province"
+        in: "query"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+
+  /departments/vaccines:
+    get:
+      tags: 
+      - "Departments"
+      summary: "Get vaccine applications, aggregated by department, along with population and percentages. Can be filtered with a province parameter"
+      operationId: "get_vaccines_by_department"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "province"
+        in: "query"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          "description": "success"
+      security: []
+
+  /departments/vaccines_geo:
+    get:
+      tags: 
+      - "Departments"
+      summary: "Get vaccine applications, aggregated by department, along with population and percentages. Also adds GeoData to make Choropleth graph. Province parameter is required"
+      operationId: "get_vaccines_by_department_geo"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "province"
+        in: "query"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          "description": "success"
+      security: []
