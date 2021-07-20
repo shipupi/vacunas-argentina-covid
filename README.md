@@ -29,6 +29,4 @@ Si se lo deja corriendo, cada 24 hrs volverá a bajar los datos:
 python3 server/api/update_db.py
 ```
 
-## Swagger
-
-https://shipupi.github.io/vacunas-argentina-covid/swagger/
+[##Swagger](https://shipupi.github.io/vacunas-argentina-covid/swagger/)
